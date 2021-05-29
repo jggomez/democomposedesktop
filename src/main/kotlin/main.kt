@@ -13,11 +13,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -79,6 +83,11 @@ fun main() = Window(title = "Todo List") {
                                 tasks.remove(it)
                                 tasks.add(updateTask)
                             }
+                        },
+                        onDelete = { idTask ->
+                            tasks.firstOrNull { it.id == idTask }?.let {
+                                tasks.remove(it)
+                            }
                         }
                     )
                 }
@@ -91,13 +100,15 @@ fun main() = Window(title = "Todo List") {
 fun TodoList(
     tasks: List<Task>,
     modifier: Modifier = Modifier,
-    onDoneChecked: (idTask: String, done: Boolean) -> Unit
+    onDoneChecked: (idTask: String, done: Boolean) -> Unit,
+    onDelete: (idTask: String) -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
         items(tasks) { task ->
             Todo(
                 task = task,
                 onDoneChecked = onDoneChecked,
+                onDelete = onDelete
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -108,13 +119,14 @@ fun TodoList(
 fun Todo(
     task: Task,
     modifier: Modifier = Modifier,
-    onDoneChecked: (idTask: String, done: Boolean) -> Unit
+    onDoneChecked: (idTask: String, done: Boolean) -> Unit,
+    onDelete: (idTask: String) -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .border(3.dp, MaterialTheme.colors.primary, RoundedCornerShape(15.dp))
-            .padding(16.dp)
+            .padding(8.dp)
     ) {
         Checkbox(
             checked = task.isDone,
@@ -130,7 +142,7 @@ fun Todo(
                         color = Color.Gray,
                         fontWeight = FontWeight.Bold,
                         textDecoration = LineThrough,
-                        fontSize = 18.sp
+                        fontSize = 17.sp
                     )
                 ) {
                     append(task.text)
@@ -142,7 +154,7 @@ fun Todo(
                     style = SpanStyle(
                         color = MaterialTheme.colors.primary,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
+                        fontSize = 17.sp
                     )
                 ) {
                     append(task.text)
@@ -152,10 +164,23 @@ fun Todo(
 
         Text(
             text = textTask,
-            modifier = Modifier.align(Alignment.CenterVertically),
+            modifier = Modifier.weight(1f).align(Alignment.CenterVertically),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
+
+        Spacer(Modifier.width(8.dp))
+
+        IconButton(
+            modifier = Modifier.align(Alignment.CenterVertically),
+            onClick = { onDelete(task.id) }
+        ) {
+            Icon(
+                Icons.Filled.Delete,
+                "Delete Task",
+                tint = MaterialTheme.colors.secondary
+            )
+        }
     }
 }
 
