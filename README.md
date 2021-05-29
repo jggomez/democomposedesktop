@@ -6,4 +6,5 @@
 
 Compose for Desktop - Fast reactive desktop UIs for Kotlin, based on Google's modern toolkit and brought to you by JetBrains.
 
-<img width="806" alt="Screen Shot 2021-05-27 at 16 53 45" src="https://user-images.githubusercontent.com/661231/119916157-9cca4c80-bf29-11eb-874b-f7b0daeb954e.png">
+<img width="804" alt="Screen Shot 2021-05-28 at 21 35 01" src="https://user-images.githubusercontent.com/661231/120056768-061e8e00-c004-11eb-950b-72f0a06f22c8.png">
+
