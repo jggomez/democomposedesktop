@@ -1,8 +1,8 @@
 # Demo - Compose for Desktop
 
-> A simple example about Compose for desktop
-
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.5.0-blueviolet.svg)](https://kotlinlang.org)
+
+> A simple example about Compose for desktop
 
 Compose for Desktop - Fast reactive desktop UIs for Kotlin, based on Google's modern toolkit and brought to you by JetBrains.
 
