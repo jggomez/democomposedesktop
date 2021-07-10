@@ -51,24 +51,23 @@ fun main() = Window(title = "Todo List") {
     ) {
         MaterialTheme {
             DesktopTheme {
-                val text = remember { mutableStateOf("") }
-                val tasks = remember { mutableStateListOf<Task>() }
+                val tasks = TaskController.tasks
 
                 Row(modifier = Modifier.padding(16.dp)) {
                     TaskInput(
-                        text.value,
+                        TaskController.taskText.value,
                         modifier = Modifier.weight(0.5f),
-                        onTextChanged = { text.value = it },
+                        onTextChanged = { TaskController.onChangeTaskText(it) },
                         onAddClicked = {
-                            tasks.add(
+                            TaskController.addTask(
                                 Task(
                                     UUID.randomUUID().toString(),
-                                    text.value,
+                                    TaskController.taskText.value,
                                     false
                                 )
                             )
                             Notifier().notify("Todo List", "You just added a new task")
-                            text.value = ""
+                            TaskController.onChangeTaskText("")
                         }
                     )
 
@@ -78,16 +77,10 @@ fun main() = Window(title = "Todo List") {
                         tasks = tasks.sortedBy { it.text },
                         modifier = Modifier.weight(0.5f),
                         onDoneChecked = { idTask, done ->
-                            tasks.firstOrNull { it.id == idTask }?.let {
-                                val updateTask = it.copy(isDone = done)
-                                tasks.remove(it)
-                                tasks.add(updateTask)
-                            }
+                            TaskController.check(idTask, done)
                         },
                         onDelete = { idTask ->
-                            tasks.firstOrNull { it.id == idTask }?.let {
-                                tasks.remove(it)
-                            }
+                            TaskController.removeTask(idTask)
                         }
                     )
                 }
@@ -212,5 +205,3 @@ fun TaskInput(
         }
     }
 }
-
-data class Task(val id: String, val text: String, var isDone: Boolean)
